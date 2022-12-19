@@ -1,0 +1,209 @@
+Basci code of HANA XS ODATA file name Cerberus_Request.xsodata
+service {
+  "Cerberus.Cerberus_DB.Tables.masterTables::WORKER_ACCESS_SECTION" as "workerAccessSection"
+  update using "xsjslib:update.xsjslib::getTxtData" delete forbidden;
+  
+  "Cerberus.Cerberus_DB.Tables.masterTables::WORKER_ASSIGNMENT_INFO" as "workerAssignmentInfo"
+  navigates("LMDetails" as "LMDetailsInfo")
+  create using "xsjslib.Assignment_Data:insertAssignment.xsjslib::InsertItem"
+  update using "xsjslib.CustomExists:UpdateWorkerAssignment.xsjslib::InsertItem" delete forbidden;
+  association "LMDetails" principal "workerAssignmentInfo"("WORKER_APPROVER1") multiplicity "1"
+	dependent "employeeMaster"("EMAIL_ID") multiplicity "*";
+  
+  "Cerberus.Cerberus_DB.Tables.masterTables::WORKER_DATA" as "workerData" 
+  navigates("comMarketDetails" as "comMarketDetailsInfo") create using  
+  "xsjslib.Worker_Data:insertWorkerData.xsjslib::InsertItem"  events( before 
+	"xsjslib.Worker_Data:ValidateFields.xsjslib::Validate")
+	update using "xsjslib.UpdateData:UpdateWorkerData.xsjslib::InsertItem" delete forbidden;
+		association "comMarketDetails" principal "workerData"("WORKER_OPCO") multiplicity "1"
+		dependent "companyMarketDetails"("ID") multiplicity "1";
+	
+  "Cerberus.Cerberus_DB.Tables.masterTables::WORKER_ORGANISATION_INFO" as "workerOrgInfo" create using  
+  "xsjslib.Worker_Org_Data:insertWorkerOrgData.xsjslib::InsertItem"
+  update using "xsjslib.UpdateData:UpdateWorkerOrgInfo.xsjslib::InsertItem" delete forbidden;
+  
+   "Cerberus.Cerberus_DB.Tables.masterTables::VBPS_DETAILS" as "VBPSDetails" create using  
+  "xsjslib.VBPS_Data:insertVBPSData.xsjslib::InsertItem"
+  update using "xsjslib.UpdateData:UpdateVBPSDetails.xsjslib::InsertItem" delete forbidden;
+  
+   "Cerberus.Cerberus_DB.Tables.masterTables::WORKER_WIAM_DATA" as "workerWiamData"
+	update forbidden 
+	delete forbidden;
+   
+   "Cerberus.Cerberus_DB.Tables.masterTables::LOCATION_ASSIGNMENT" as "locationAssignment" create using  
+  "xsjslib.Location_data:insertLocationData.xsjslib::InsertItem"
+  update using "xsjslib.UpdateData:UpdateLocationAssi.xsjslib::InsertItem" delete forbidden;
+  
+    "Cerberus.Cerberus_DB.Tables.masterTables::WORKFLOW_TABLE" as "workflowTable" ;
+     "Cerberus.Cerberus_DB.Tables.masterTables::REQUEST_DATA" as "requestData" create using 
+     "xsjslib.Request_Data:insertRequest.xsjslib::InsertItem" 
+     update using "xsjslib.CustomExists:UpdateRequestData.xsjslib::InsertItem" delete forbidden;
+     
+     "Cerberus.Cerberus_DB.Tables.masterTables::LINE_MANAGER" as "LineManager" delete forbidden ;
+     "Cerberus.Cerberus_DB.Tables.masterTables::MANAGER" as "Manager" delete forbidden ;
+	 "Cerberus.Cerberus_DB.Tables.masterTables::EMPLOYEE_MASTER" as "employeeMaster" create forbidden update forbidden delete forbidden;
+	 
+	 "Cerberus.Cerberus_DB.Tables.masterTables::SECURITY_ID" as "securityId" ;
+	 
+	 "Cerberus.Cerberus_DB.Tables.masterTables::LOCATION_MASTER" as "locationMaster" create forbidden update forbidden delete forbidden;
+	 
+	 "Cerberus.Cerberus_DB.Tables.masterTables::MODIFY_REQUEST" as "modifyRequest" 
+	 create using
+	 "xsjslib:modifyRequest.xsjslib::ValidateModify" delete forbidden;
+	 "Cerberus.Cerberus_DB.Tables.masterTables::LOG" as "log" delete forbidden;
+	 
+	 "Cerberus.Cerberus_DB.Tables.masterTables::ADMIN_USERS" as "adminUsers" delete forbidden;
+	 
+    
+    
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::TITLE" as "Title" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::JOB_FUNC_DATA" as "jobFuncData" create forbidden update forbidden delete forbidden ;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::JOB_TITLE_DATA" as "jobTitleData" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::LANGUAGE_DATA" as "languageData" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::OPCO_DATA" as "opcoData" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::ORGANISATION_DATA" as "orgData" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::SUB_GRP_DATA" as "subGrpData" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::ACQUIRED_COMPANY" as "acquiredCompany" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::COUNTRY_NAME" as "countryName" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::ASSIGNMENT_COUNTRY" as "assiCountry" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::DEPT_NAME" as "deptName" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::LOCATION_BUILDING" as "locationBuilding" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::LOCATION_STREET" as "locationStreet" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::LOCATION_CITY" as "locationCity" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::LOCATION_POSTCODE" as "locationPostCode" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::COST_CENTER" as "costCenter" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::PO_APPLICABLE" as "Po_applicable" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::ACCESS_PASS_REQUIRED" as "accessPassRequired" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::ACCESS_TO_SITE_REQUIRED" as "accessToSiteRequired" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::SKILL_CATEGORY" as "skillCategory" navigates("skillSetDetails" as "skillSetDetailsInfo") create forbidden update forbidden delete forbidden;
+		association "skillSetDetails" principal "skillCategory"("ID") multiplicity "1"
+		dependent "skillSets"("SKILL_ID") multiplicity "*";
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::SKILLSETS" as "skillSets" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::PAYMENT_METHOD" as "paymentMethod" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::DAY_RATE_CURRENCY" as "dayRateCurrency" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::WORKER_TYPE" as "workerType" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::WORKER_DORMANT" as "workerDormant" create forbidden update forbidden delete forbidden;
+    "Cerberus.Cerberus_DB.Tables.dropdownTables::DAY_RATE" as "dayRate" create forbidden update forbidden delete forbidden;
+    "Cerberus.Cerberus_DB.Tables.dropdownTables::COMPANY_MARKET" as "companyMarketDetails" create forbidden update forbidden delete forbidden;
+    
+    "Cerberus.Cerberus_DB.Tables.dropdownTables::REMEDY_ACCESS_REQUIRED" as "remedyAccessRequired";
+    "Cerberus.Cerberus_DB.Tables.dropdownTables::VODAFONE_LAPTOP_REQUIRED" as "vodafoneLaptopRequired";
+    "Cerberus.Cerberus_DB.Tables.dropdownTables::IS_MS_DOMAIN_REQUIRED" as "isMsDomainRequired";
+     "Cerberus.Cerberus_DB.Tables.dropdownTables::REASON_REMOVING_RESOURCE" as "reasonRemovingResource";
+     "Cerberus.Cerberus_DB.Tables.dropdownTables::MOBILE_NO_CODE" as "mobileCode";
+     "Cerberus.Cerberus_DB.Tables.dropdownTables::VBPS_WORKER_TYPE" as "vbpsWorkerType";
+     "Cerberus.Cerberus_DB.Tables.dropdownTables::PAYE_STATUS" as "payeStatus";
+     "Cerberus.Cerberus_DB.Tables.dropdownTables::DAY_RATE_ESTIMATE" as "dayRateEstimate";
+     "Cerberus.Cerberus_DB.Tables.dropdownTables::IS_IBM_CIRRUS_EMPLOYEE" as "isIBMCirrusEmployee";
+     "Cerberus.Cerberus_DB.Tables.dropdownTables::BUSINESS_AREA_VBPS" as "businessAreaVBPS";
+
+   
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::ANALYTICS" as "analytics" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::EXTERNAL_RATIONALE" as "externalRationale" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::PROGRAMME_PORODUCT" as "programmeProduct" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::RESOURCE_PRACTICE" as "resourcePractice" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::SOW_COST" as "sowCost" create forbidden update forbidden delete forbidden;
+   "Cerberus.Cerberus_DB.Tables.dropdownTables::TECHNICAL" as "technical" create forbidden update forbidden delete forbidden;
+  
+   
+   "Cerberus.Cerberus_DB.Tables.masterView::alldata" as "alldataView" keys("WORKER_ID");
+   "Cerberus.Cerberus_DB.Tables.masterView::assignmentVBPS" as "assignmentVBPSView" keys("ASSIGNMENT_ID");
+   "Cerberus.Cerberus_DB.Tables.masterView::requestData" as "requestDataView" keys("REQUEST_ID");
+    "Cerberus.Cerberus_DB.Tables.masterView::viewStatus" as "viewStatusView" keys("REQUEST_ID");
+    "Cerberus.Cerberus_DB.Tables.dropdownTables::LOCALMARKET" as "localMarketDetails" keys("LOCAL_MARKET_CODE") create forbidden update forbidden delete forbidden;
+    
+    "Cerberus.Cerberus_DB.Tables.masterView::workflowRelated" as "workflowRelatedView" keys("REQUEST_ID");
+     
+     
+  //Associated Table xsodata
+  
+  "Cerberus.Cerberus_DB.Tables.masterTables::WORKER_DATA" as "AllWorkerData" navigates("WorkerAssignment" as "WorkerAssignInfo" , 
+"WorkerOrg" as "WorkerOrgInfo", "WorkerAccess" as "WorkerAccessInfo") create forbidden update forbidden delete forbidden;
+   
+  //Association
+  association "WorkerAssignment" principal "AllWorkerData"("WORKER_ID") multiplicity "1"
+dependent "workerAssignmentInfo"("WORKER_ID") multiplicity "*";
+
+association "WorkerOrg" principal "AllWorkerData"("WORKER_ID") multiplicity "1"
+dependent "workerAccessSection"("WORKER_ID") multiplicity "*";
+
+association "WorkerAccess" principal "AllWorkerData"("WORKER_ID") multiplicity "1"
+dependent "workerOrgInfo"("WORKER_ID") multiplicity "*";
+}
+
+XSJSLIB function file insertAssignment.xsjslib
+
+$.import("xsjslib", "commonFunctions");
+function InsertItem(param) {
+
+    let after = param.afterTableName;
+    let pStmt = param.connection.prepareStatement('select * from "'+after+'"');
+   	var conn = $.db.getConnection();
+   	var cf = $.xsjslib.commonFunctions;
+    var rs = pStmt.executeQuery();
+    var oWorker_sql = `SELECT MAX(WORKER_ID) FROM "Cerberus.Cerberus_DB.Tables.masterTables::REQUEST_DATA"`;
+	let WORKER_ID = conn.prepareStatement(oWorker_sql).executeQuery()._rows[0][0];
+var oRequest_sql = `SELECT MAX(REQUEST_ID) FROM "Cerberus.Cerberus_DB.Tables.masterTables::REQUEST_DATA"`;
+let REQUESTID = conn.prepareStatement(oRequest_sql).executeQuery()._rows[0][0];
+    var oAssignment_sql = `SELECT ASSIGNMENT_ID FROM "Cerberus.Cerberus_DB.Tables.masterTables::REQUEST_DATA" 
+    where REQUEST_ID = '${REQUESTID}'`;
+//var ASSIGNMENT_ID = conn.prepareStatement(oAssignment_sql).executeQuery()._rows[0][0]+1;
+var ASSIGNMENT_ID = conn.prepareStatement(oAssignment_sql).executeQuery()._rows[0][0];
+// var len = ASSIGNMENT.length;
+// var sub1=ASSIGNMENT.substring(6,len) ;
+// var final1= parseInt(sub1);
+// var final2 = final1 ;
+// var x1=ASSIGNMENT.substring(0,6);
+// let ASSIGNMENT_ID=x1+final2;
+	 //Increment Worker ID
+	 
+	
+if (rs.next()) {
+
+	if(rs._row[11] !== "In Draft")
+	{
+		var isWorkerAssignData = cf.checkWorkerAssignData(rs._row);
+			if (isWorkerAssignData !== "") {
+				return {
+					HTTP_STATUS_CODE: 400,
+					ERROR_MESSAGE: isWorkerAssignData
+				};
+			}
+	}
+        pStmt = param.connection.prepareStatement(`insert into "Cerberus.Cerberus_DB.Tables.masterTables::WORKER_ASSIGNMENT_INFO" 
+	  (ASSIGNMENT_ID, WORKER_ID, WORKER_START_DATE, WORKER_END_DATE,
+	  WORKER_PO, WORKER_COST_CENTER, WORKER_APPROVER1, WORKER_APPROVER2,
+	  SECURITYID , REQUESTID ,PO_STATUS, ASSIGNMENT_STATUS, JOB_TITLE, JOB_FUNCTION, PO_NUMBER_CONTRACT,
+	  OPERATIONAL_MANAGER, REVIEWER, ASSINGMENT_COUNTRY, DEPARTMENT_NAME, REASON_FOR_NO_PO, WINDOWS_ACCOUNT,
+	  WINDOWS_ACCOUNT_REQUIRED, MAILBOX_REQUIRED,PO_APPLICABLE) 
+        values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+        pStmt.setString(1, ASSIGNMENT_ID);         
+        pStmt.setInt(2,WORKER_ID);           
+        pStmt.setString(3, rs.getString(3));
+        pStmt.setString(4, rs.getString(4));
+        pStmt.setString(5, rs.getString(5));
+        pStmt.setString(6, rs.getString(6));
+        pStmt.setString(7, rs.getString(7));
+        pStmt.setString(8, rs.getString(8));
+        pStmt.setString(9, rs.getString(9));
+        pStmt.setInt(10, REQUESTID);
+        pStmt.setString(11, rs.getString(11));
+        pStmt.setString(12, rs.getString(12));
+        pStmt.setString(13, rs.getString(13));
+        pStmt.setString(14, rs.getString(14));
+        pStmt.setString(15, rs.getString(15));
+        pStmt.setString(16, rs.getString(16));
+        pStmt.setString(17, rs.getString(17));
+        pStmt.setString(18, rs.getString(18));
+        pStmt.setString(19, rs.getString(19));
+        pStmt.setString(20, rs.getString(20));
+        pStmt.setString(21, rs.getString(21));
+        pStmt.setString(22, rs.getString(22));
+        pStmt.setString(23, rs.getString(23));
+        pStmt.setString(24, rs.getString(24));
+        pStmt.executeUpdate();
+        pStmt.close();
+        }
+    rs.close();
+}
+
